@@ -4,11 +4,12 @@ import { migrate } from "drizzle-orm/better-sqlite3/migrator";
 import { Hono } from "hono";
 import { serve } from "@hono/node-server";
 import { serveStatic } from "@hono/node-server/serve-static";
+import started from "electron-squirrel-startup";
 import { db } from "./utils/db";
 import { ipcMainListeners } from "./ipc-main-listeners";
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
-if (require("electron-squirrel-startup")) {
+if (started) {
   app.quit();
 }
 
