@@ -1,9 +1,9 @@
 import { type ipcMain } from "electron";
-import { getNames } from "./get-names";
+import { fetchUsers } from "./fetch-users";
 import { saveName } from "./save-name";
 
 export const ipcMainListeners = {
-  getNames,
+  fetchUsers,
   saveName,
 };
 

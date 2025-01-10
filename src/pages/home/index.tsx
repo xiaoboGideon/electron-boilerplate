@@ -7,13 +7,14 @@ import {
   Flex,
 } from "@adobe/react-spectrum";
 import { type FormProps } from "react-router-dom";
+import { users } from "../../schema";
 
 export function Home(): JSX.Element {
-  const [names, setNames] = useState<string[] | null>(null);
+  const [names, setNames] = useState<(typeof users.$inferSelect)["name"][]>([]);
 
   const updateNames = async (): Promise<void> => {
-    const result = await window.ipcRenderer.invoke("getNames");
-    setNames(result);
+    const users = await window.ipcRenderer.invoke("fetchUsers");
+    setNames(users.map((user) => user.name));
   };
 
   useEffect(() => {
@@ -54,7 +55,11 @@ export function Home(): JSX.Element {
             </ButtonGroup>
           </Form>
         </Flex>
-        <div>{names?.map((message, i) => <p key={i}>{message}</p>)}</div>
+        <div>
+          {names.map((message, i) => (
+            <p key={i}>{message}</p>
+          ))}
+        </div>
       </Flex>
     </div>
   );
