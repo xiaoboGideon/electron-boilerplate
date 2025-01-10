@@ -2,6 +2,6 @@ import { users } from "../schema";
 import { db } from "../utils/db";
 import { type IpcMainListener } from ".";
 
-export const saveName = ((_: unknown, name: string): void => {
-  void db.insert(users).values({ name }).run();
+export const saveName = (async (_: unknown, name: string): Promise<void> => {
+  await db.insert(users).values({ name });
 }) satisfies IpcMainListener;
