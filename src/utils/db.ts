@@ -7,19 +7,33 @@ import {
 } from "drizzle-orm/better-sqlite3";
 
 const isDev = process.env.NODE_ENV === "development";
-const dbDirectory = path.resolve("./database");
-export const dbPath = isDev
-  ? path.join(dbDirectory, "app.db")
-  : path.resolve(process.resourcesPath, "app.db");
 
-if (isDev && !existsSync(dbDirectory)) {
-  mkdirSync(dbDirectory, { recursive: true });
+const baseResourcePath = isDev ? "." : process.resourcesPath || ".";
+
+const dbDirectoryPath = path.resolve(baseResourcePath, "database");
+const dbPath = path.resolve(dbDirectoryPath, "app.db");
+
+// 開発・本番環境共通でディレクトリの存在確認と作成
+try {
+  if (!existsSync(dbDirectoryPath)) {
+    mkdirSync(dbDirectoryPath, { recursive: true });
+  }
+} catch (error) {
+  console.error("Failed to create database directory:", error);
+  throw new Error("Failed to initialize database directory");
 }
 
-const betterSqlite3 = new Database(dbPath, { verbose: console.info });
+// データベース接続の初期化
+let betterSqlite3: Database.Database;
+try {
+  betterSqlite3 = new Database(dbPath, {
+    verbose: isDev ? console.info : undefined,
+  });
 
-// Enable Write-Ahead Logging (WAL) mode for better performance
-// ref: https://github.com/WiseLibs/better-sqlite3/blob/master/docs/performance.md
-betterSqlite3.pragma("journal_mode = WAL");
+  betterSqlite3.pragma("journal_mode = WAL");
+} catch (error) {
+  console.error("Failed to initialize database:", error);
+  throw new Error("Database initialization failed");
+}
 
 export const db: BetterSQLite3Database = drizzle(betterSqlite3);
