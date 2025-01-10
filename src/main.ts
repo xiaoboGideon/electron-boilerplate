@@ -1,5 +1,6 @@
 import { app, BrowserWindow, ipcMain } from "electron";
 import path from "path";
+import { readFileSync } from "fs";
 import { migrate } from "drizzle-orm/better-sqlite3/migrator";
 import { Hono } from "hono";
 import { serve } from "@hono/node-server";
@@ -57,6 +58,12 @@ void app.whenReady().then(() => {
 
     // Serve static files
     hono.use("/*", serveStatic({ root: distPath }));
+
+    // Add fallback setting for SPA
+    hono.get("*", (c) => {
+      const html = readFileSync(path.join(distPath, "index.html"), "utf-8");
+      return c.html(html);
+    });
 
     // Start the server
     serve(
