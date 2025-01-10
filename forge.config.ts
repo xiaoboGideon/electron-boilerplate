@@ -28,10 +28,12 @@ const config: ForgeConfig = {
           // `entry` is just an alias for `build.lib.entry` in the corresponding file of `config`.
           entry: "src/main.ts",
           config: "vite.main.config.ts",
+          target: "main",
         },
         {
           entry: "src/preload.ts",
           config: "vite.preload.config.ts",
+          target: "preload",
         },
       ],
       renderer: [
@@ -41,6 +43,10 @@ const config: ForgeConfig = {
         },
       ],
     }),
+    {
+      name: "@electron-forge/plugin-auto-unpack-natives",
+      config: {},
+    },
     // Fuses are used to enable/disable various Electron functionality
     // at package time, before code signing the application
     new FusesPlugin({
