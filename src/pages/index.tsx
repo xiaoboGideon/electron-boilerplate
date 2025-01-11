@@ -1,7 +1,7 @@
 import "../styles/global.css";
 import { createHashRouter, RouterProvider } from "react-router-dom";
 import { Home } from "./home";
-import { Error } from "./error";
+import { ErrorBoundary } from "./error-boundary";
 import { About } from "./about";
 import { Layout } from "./layout";
 
@@ -10,7 +10,7 @@ const router = createHashRouter([
   {
     path: "/",
     element: <Layout />,
-    errorElement: <Error />,
+    errorElement: <ErrorBoundary />,
     children: [
       {
         path: "/",

@@ -1,15 +1,17 @@
 import { useEffect, useState } from "react";
-import { type FormProps } from "react-router-dom";
+import { Link, type FormProps } from "react-router-dom";
 import { type users } from "../../schema";
 import { Button } from "@/components/shadcn-ui/button";
 import { Input } from "@/components/shadcn-ui/input";
 
 export function Home(): JSX.Element {
-  const [names, setNames] = useState<(typeof users.$inferSelect)["name"][]>([]);
+  const [usersState, setUsersState] = useState<(typeof users.$inferSelect)[]>(
+    [],
+  );
 
   const updateNames = async (): Promise<void> => {
     const users = await window.ipcRenderer.invoke("fetchUsers");
-    setNames(users.map((user) => user.name));
+    setUsersState(users);
   };
 
   useEffect(() => {
@@ -34,7 +36,7 @@ export function Home(): JSX.Element {
       <img alt="logo" src="vite.svg" />
       <h1>Hello, world!</h1>
       <div>
-        <a href="#about">Go to about page</a>
+        <Link to="/about">Go to about page</Link>
       </div>
       <form onSubmit={handleSubmit}>
         <Input name="name" type="text" />
@@ -42,8 +44,8 @@ export function Home(): JSX.Element {
         <Button type="reset">Reset</Button>
       </form>
       <div>
-        {names.map((message, i) => (
-          <p key={i}>{message}</p>
+        {usersState.map((user) => (
+          <p key={user.id}>{user.name}</p>
         ))}
       </div>
     </div>
