@@ -35,7 +35,8 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]
-    }
+    },
+    "types": ["vitest/importMeta"]
   },
   "exclude": ["forge.config.ts"]
 }
