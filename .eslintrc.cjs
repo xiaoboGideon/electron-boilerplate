@@ -57,12 +57,6 @@ module.exports = {
     ],
     "@typescript-eslint/no-floating-promises": "error",
     "@typescript-eslint/explicit-function-return-type": "error",
-    "react/jsx-sort-props": [
-      "error",
-      {
-        reservedFirst: ["key", "dangerouslySetInnerHTML", "ref"],
-      },
-    ],
     "import/no-unresolved": "error",
     "import/no-default-export": "error",
     "import/order": "error",
