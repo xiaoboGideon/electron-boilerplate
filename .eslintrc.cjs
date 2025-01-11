@@ -76,7 +76,7 @@ module.exports = {
     {
       files: ["*.config.ts"],
       rules: {
-        "import-x/no-default-export": "off",
+        "import/no-default-export": "off",
       },
     },
   ],
