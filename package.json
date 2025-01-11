@@ -12,7 +12,8 @@
     "publish": "electron-forge publish",
     "lint": "npm run lint:eslint && npm run lint:typecheck",
     "lint:eslint": "eslint --ext .ts,.tsx .",
-    "lint:typecheck": "tsc --noEmit"
+    "lint:typecheck": "tsc --noEmit",
+    "test": "vitest"
   },
   "devDependencies": {
     "@electron-forge/cli": "^7.6.0",
