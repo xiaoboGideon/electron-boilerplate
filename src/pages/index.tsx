@@ -1,5 +1,4 @@
 import { createHashRouter, RouterProvider } from "react-router-dom";
-import { defaultTheme, Provider as ThemeProvider } from "@adobe/react-spectrum";
 import { Home } from "./home";
 import { Error } from "./error";
 import { About } from "./about";
@@ -26,9 +25,5 @@ const router = createHashRouter([
 ]);
 
 export function App(): JSX.Element {
-  return (
-    <ThemeProvider theme={defaultTheme}>
-      <RouterProvider router={router} />
-    </ThemeProvider>
-  );
+  return <RouterProvider router={router} />;
 }

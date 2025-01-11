@@ -1,13 +1,6 @@
 import { useEffect, useState } from "react";
-import {
-  Form,
-  TextField,
-  ButtonGroup,
-  Button,
-  Flex,
-} from "@adobe/react-spectrum";
 import { type FormProps } from "react-router-dom";
-import { users } from "../../schema";
+import { type users } from "../../schema";
 
 export function Home(): JSX.Element {
   const [names, setNames] = useState<(typeof users.$inferSelect)["name"][]>([]);
@@ -41,26 +34,16 @@ export function Home(): JSX.Element {
       <div>
         <a href="#about">Go to about page</a>
       </div>
-      <Flex gap="size-400" justifyContent="center" marginTop="size-400">
-        <Flex direction="column" gap="size-200">
-          <Form maxWidth="size-3000" onSubmit={handleSubmit}>
-            <TextField label="Save name" name="name" />
-            <ButtonGroup>
-              <Button type="submit" variant="primary">
-                Submit
-              </Button>
-              <Button type="reset" variant="secondary">
-                Reset
-              </Button>
-            </ButtonGroup>
-          </Form>
-        </Flex>
-        <div>
-          {names.map((message, i) => (
-            <p key={i}>{message}</p>
-          ))}
-        </div>
-      </Flex>
+      <form onSubmit={handleSubmit}>
+        <input name="name" type="text" />
+        <button type="submit">Submit</button>
+        <button type="reset">Reset</button>
+      </form>
+      <div>
+        {names.map((message, i) => (
+          <p key={i}>{message}</p>
+        ))}
+      </div>
     </div>
   );
 }
