@@ -11,6 +11,7 @@ Uses:
 - [better-sqlite3](https://github.com/WiseLibs/better-sqlite3)
 - [Drizzle](https://orm.drizzle.team/)
 - [Hono](https://hono.dev/)
+- [shadcn/ui](https://ui.shadcn.com/)
 
 Most of this code is generously borrowed from [Electron forge template with Vite + React](https://www.electronforge.io/templates/vite-+-typescript).
 
