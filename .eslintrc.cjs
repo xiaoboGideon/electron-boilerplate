@@ -15,6 +15,7 @@ module.exports = {
     "plugin:import/electron",
     "plugin:import/typescript",
     "plugin:eslint-comments/recommended",
+    "plugin:tailwindcss/recommended",
   ],
   settings: {
     "import/resolver": {
