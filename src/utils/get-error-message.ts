@@ -27,3 +27,13 @@ function toErrorWithMessage(maybeError: unknown): ErrorWithMessage {
 export function getErrorMessage(error: unknown): string {
   return toErrorWithMessage(error).message;
 }
+
+if (import.meta.vitest) {
+  const { it, expect } = import.meta.vitest;
+  it("isErrorWithMessage", () => {
+    expect(isErrorWithMessage(new Error("message"))).toBe(true);
+    expect(isErrorWithMessage({ message: "message" })).toBe(true);
+    expect(isErrorWithMessage({})).toBe(false);
+    expect(isErrorWithMessage("message")).toBe(false);
+  });
+}
