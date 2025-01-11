@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { type FormProps } from "react-router-dom";
 import { type users } from "../../schema";
+import { Button } from "@/components/shadcn-ui/button";
+import { Input } from "@/components/shadcn-ui/input";
 
 export function Home(): JSX.Element {
   const [names, setNames] = useState<(typeof users.$inferSelect)["name"][]>([]);
@@ -35,9 +37,9 @@ export function Home(): JSX.Element {
         <a href="#about">Go to about page</a>
       </div>
       <form onSubmit={handleSubmit}>
-        <input name="name" type="text" />
-        <button type="submit">Submit</button>
-        <button type="reset">Reset</button>
+        <Input name="name" type="text" />
+        <Button type="submit">Submit</Button>
+        <Button type="reset">Reset</Button>
       </form>
       <div>
         {names.map((message, i) => (
