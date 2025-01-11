@@ -1,9 +1,9 @@
+import "../styles/global.css";
 import { createHashRouter, RouterProvider } from "react-router-dom";
 import { Home } from "./home";
 import { Error } from "./error";
 import { About } from "./about";
 import { Layout } from "./layout";
-import "../styles/global.css";
 
 // Since this is a client-only application, use `createHashRouter
 const router = createHashRouter([
