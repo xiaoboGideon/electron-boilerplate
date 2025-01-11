@@ -19,7 +19,10 @@ module.exports = {
   ],
   settings: {
     "import/resolver": {
-      typescript: true,
+      typescript: {
+        project: ["./tsconfig.app.json", "./tsconfig.node.json"],
+        alwaysTryTypes: true,
+      },
     },
     react: {
       version: "detect",
@@ -27,7 +30,7 @@ module.exports = {
   },
   parser: "@typescript-eslint/parser",
   parserOptions: {
-    project: ["./tsconfig.json"],
+    project: ["./tsconfig.app.json", "./tsconfig.node.json"],
     tsconfigRootDir: __dirname,
   },
   plugins: ["eslint-comments"],
