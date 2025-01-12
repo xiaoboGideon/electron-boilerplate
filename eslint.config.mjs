@@ -18,7 +18,6 @@ const compat = new FlatCompat({
 export default [
   {
     ignores: [
-      "**/.eslintrc.cjs",
       ".vite",
       ".prettierrc.mjs",
       "eslint.config.mjs",
