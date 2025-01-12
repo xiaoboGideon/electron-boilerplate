@@ -30,10 +30,8 @@ export function getErrorMessage(error: unknown): string {
 
 if (import.meta.vitest) {
   const { it, expect } = import.meta.vitest;
-  it("isErrorWithMessage", () => {
-    expect(isErrorWithMessage(new Error("message"))).toBe(true);
-    expect(isErrorWithMessage({ message: "message" })).toBe(true);
-    expect(isErrorWithMessage({})).toBe(false);
-    expect(isErrorWithMessage("message")).toBe(false);
+  it("getErrorMessage", () => {
+    expect(getErrorMessage(new Error("foo"))).toBe("foo");
+    expect(getErrorMessage({ message: "foo" })).toBe("foo");
   });
 }
