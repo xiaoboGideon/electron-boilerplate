@@ -27,6 +27,7 @@
     "@electron/fuses": "^1.8.0",
     "@hono/node-server": "^1.13.1",
     "@radix-ui/react-slot": "^1.1.1",
+    "@tsconfig/vite-react": "^3.4.0",
     "@types/better-sqlite3": "^7.6.11",
     "@types/electron-squirrel-startup": "^1.0.2",
     "@types/react": "^18.3.3",

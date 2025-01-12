@@ -1,8 +1,4 @@
 // for forge.config.ts
 {
-  "compilerOptions": {
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext"
-  },
   "include": ["forge.config.ts"]
 }
