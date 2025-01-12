@@ -24,10 +24,9 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
+    "noUncheckedSideEffectImports": true,
 
-    // Only available in TypeScript 5.2 and later
-    // "noUncheckedSideEffectImports": true
-
+    /* Others */
     "incremental": true,
     "baseUrl": ".",
     "paths": {
