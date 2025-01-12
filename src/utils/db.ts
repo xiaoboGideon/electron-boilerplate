@@ -7,11 +7,8 @@ import {
 } from "drizzle-orm/better-sqlite3";
 
 const isDev = process.env.NODE_ENV === "development";
-
 const baseResourcePath = isDev ? "." : process.resourcesPath || ".";
-
 const dbDirectoryPath = path.resolve(baseResourcePath, "database");
-const dbPath = path.resolve(dbDirectoryPath, "app.db");
 
 // 開発・本番環境共通でディレクトリの存在確認と作成
 try {
@@ -26,6 +23,7 @@ try {
 // データベース接続の初期化
 let betterSqlite3: Database.Database;
 try {
+  const dbPath = path.resolve(dbDirectoryPath, "app.db");
   betterSqlite3 = new Database(dbPath, {
     verbose: isDev ? console.info : undefined,
   });
