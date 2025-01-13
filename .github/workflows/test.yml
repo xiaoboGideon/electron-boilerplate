@@ -1,25 +1,17 @@
-name: Test GitHub Actions
+name: Dynamic Branch Workflow
 
 on:
   workflow_dispatch:
+    inputs:
+      branch:
+        description: "Enter branch name"
+        required: true
+        type: string
+        default: "main" #
 
 jobs:
-  build:
+  log-the-inputs:
     runs-on: ubuntu-latest
-
     steps:
-      - uses: actions/checkout@v4
-        with:
-          ref: develop # ここで対象としたいブランチを固定指定
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: "20"
-          cache: "npm"
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Build
-        run: npm run build
+      - name: Log the inputs
+        run: echo "Branch name is ${{ github.event.inputs.branch }}"
