@@ -5,7 +5,7 @@ import { ErrorBoundary } from "./error-boundary";
 import { About } from "./about";
 import { Layout } from "./layout";
 
-// Since this is a client-only application, use `createHashRouter
+// Since this is a client-only application, use `createHashRouter`
 const router = createHashRouter([
   {
     path: "/",
