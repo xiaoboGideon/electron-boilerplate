@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { type FormEvent, useEffect, useRef, useState } from "react";
 import { Link, type FormProps } from "react-router-dom";
 import { type users } from "../../schema";
 import { Button } from "@/components/shadcn-ui/button";
@@ -16,22 +16,16 @@ export function Home(): JSX.Element {
   };
 
   useEffect(function setInitialUsers() {
-    const asyncEffect = async (): Promise<void> => {
-      await updateUsers();
-    };
-    asyncEffect().catch(console.error);
+    void updateUsers();
   }, []);
 
-  const handleSubmit: FormProps["onSubmit"] = (e) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
-    const asyncSubmit = async (): Promise<void> => {
-      const data = Object.fromEntries(new FormData(e.currentTarget));
-      await window.ipcRenderer.invoke("saveName", data.name.toString());
-      await updateUsers();
-    };
-
-    asyncSubmit()
-      .then(() => {
+    const data = Object.fromEntries(new FormData(e.currentTarget));
+    await window.ipcRenderer
+      .invoke("saveName", data.name.toString())
+      .then((result) => {
+        setUsersState((prev) => [...prev, result]);
         formRef.current?.reset();
       })
       .catch(console.error);
