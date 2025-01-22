@@ -24,6 +24,6 @@ const router = createHashRouter([
   },
 ]);
 
-export function App(): JSX.Element {
+export function App(): React.JSX.Element {
   return <RouterProvider router={router} />;
 }

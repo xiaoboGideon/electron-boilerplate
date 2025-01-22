@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-export function About(): JSX.Element {
+export function About(): React.JSX.Element {
   return (
     <div>
       <h1>About</h1>

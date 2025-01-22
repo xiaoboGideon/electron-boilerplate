@@ -4,7 +4,7 @@ import { type users } from "../../schema";
 import { Button } from "@/components/shadcn-ui/button";
 import { Input } from "@/components/shadcn-ui/input";
 
-export function Home(): JSX.Element {
+export function Home(): React.JSX.Element {
   const [usersState, setUsersState] = useState<(typeof users.$inferSelect)[]>(
     [],
   );
