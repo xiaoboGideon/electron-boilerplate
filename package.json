@@ -74,6 +74,8 @@
   "optionalDependencies": {
     "@rollup/rollup-win32-x64-msvc": "^4.21.3"
   },
-  "packageManager": "npm@10.8.0",
-  "enginesStrict": true
+  "engines": {
+    "node": ">=20.11.0",
+    "npm": ">=10.8.0"
+  }
 }
