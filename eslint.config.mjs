@@ -1,64 +1,37 @@
-import { fixupConfigRules, fixupPluginRules } from "@eslint/compat";
-import eslintComments from "eslint-plugin-eslint-comments";
-import globals from "globals";
-import tsParser from "@typescript-eslint/parser";
-import path from "node:path";
-import { fileURLToPath } from "node:url";
-import js from "@eslint/js";
-import { FlatCompat } from "@eslint/eslintrc";
+import eslint from "@eslint/js";
+import tseslint from "typescript-eslint";
+import reactPlugin from "eslint-plugin-react";
+import importPlugin from "eslint-plugin-import";
+import comments from "@eslint-community/eslint-plugin-eslint-comments/configs";
+import tailwind from "eslint-plugin-tailwindcss";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-const compat = new FlatCompat({
-  baseDirectory: __dirname,
-  recommendedConfig: js.configs.recommended,
-  allConfig: js.configs.all,
-});
-
-export default [
+export default tseslint.config(
+  eslint.configs.recommended,
+  tseslint.configs.recommendedTypeChecked,
+  reactPlugin.configs.flat.recommended,
+  reactPlugin.configs.flat["jsx-runtime"],
+  comments.recommended,
+  tailwind.configs["flat/recommended"],
   {
-    ignores: [
-      ".vite",
-      ".prettierrc.mjs",
-      "eslint.config.mjs",
-      "postcss.config.js",
-    ],
+    settings: {
+      react: {
+        version: "detect",
+      },
+    },
   },
-  ...fixupConfigRules(
-    compat.extends(
-      "eslint:recommended",
-      "plugin:@typescript-eslint/recommended",
-      "plugin:react/recommended",
-      "plugin:react-hooks/recommended",
-      "plugin:react/jsx-runtime",
-      "plugin:import/recommended",
-      "plugin:import/electron",
-      "plugin:import/typescript",
-      "plugin:eslint-comments/recommended",
-      "plugin:tailwindcss/recommended",
-    ),
-  ),
   {
-    plugins: {
-      "eslint-comments": fixupPluginRules(eslintComments),
-    },
-
+    files: ["**/*.{ts,tsx}"],
     languageOptions: {
-      globals: {
-        ...globals.browser,
-        ...globals.node,
-      },
-
-      parser: tsParser,
-      ecmaVersion: 5,
-      sourceType: "commonjs",
-
       parserOptions: {
-        project: ["./tsconfig.app.json", "./tsconfig.node.json"],
-        tsconfigRootDir: "/Users/kimizuy/Documents/dev/electron-boilerplate",
+        projectService: true,
+        tsconfigRootDir: import.meta.dirname,
       },
     },
-
+    extends: [
+      importPlugin.flatConfigs.recommended,
+      importPlugin.flatConfigs.typescript,
+      importPlugin.flatConfigs.electron,
+    ],
     settings: {
       "import/resolver": {
         typescript: {
@@ -66,16 +39,10 @@ export default [
           alwaysTryTypes: true,
         },
       },
-
-      react: {
-        version: "detect",
-      },
     },
-
     rules: {
       "@typescript-eslint/array-type": "off",
       "@typescript-eslint/consistent-type-definitions": "off",
-
       "@typescript-eslint/consistent-type-imports": [
         "warn",
         {
@@ -83,16 +50,13 @@ export default [
           fixStyle: "inline-type-imports",
         },
       ],
-
       "@typescript-eslint/no-unused-vars": [
-        "warn",
+        "error",
         {
           argsIgnorePattern: "^_",
         },
       ],
-
       "@typescript-eslint/require-await": "off",
-
       "@typescript-eslint/no-misused-promises": [
         "error",
         {
@@ -101,16 +65,14 @@ export default [
           },
         },
       ],
-
       "@typescript-eslint/no-floating-promises": "error",
       "@typescript-eslint/explicit-function-return-type": "error",
       "import/no-unresolved": "error",
       "import/no-default-export": "error",
       "import/order": "error",
       "import/no-named-as-default": "off",
-      "eslint-comments/require-description": "error",
+      "@eslint-community/eslint-comments/require-description": "error",
       "object-shorthand": "warn",
-
       "no-console": [
         "error",
         {
@@ -121,9 +83,15 @@ export default [
   },
   {
     files: ["**/*.config.ts"],
-
     rules: {
       "import/no-default-export": "off",
     },
   },
-];
+  {
+    files: ["eslint.config.mjs", ".prettierrc.mjs"],
+    extends: [tseslint.configs.disableTypeChecked],
+  },
+  {
+    ignores: [".vite", "postcss.config.js"],
+  },
+);
