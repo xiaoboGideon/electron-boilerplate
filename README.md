@@ -14,3 +14,6 @@ Uses:
 
 Most of this code is generously borrowed from [Electron forge template with Vite + TypeScript](https://www.electronforge.io/templates/vite-+-typescript).
 
+## Notes
+
+If you want to upgrade the version of Electron or better-sqlite3, you need to use a version of better-sqlite3 that is compatible with the version of Electron. Please check the [better-sqlite3 release page](https://github.com/WiseLibs/better-sqlite3/releases) for compatibility information.
