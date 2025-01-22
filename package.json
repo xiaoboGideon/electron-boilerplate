@@ -1,6 +1,6 @@
 {
   "name": "electron-boilerplate",
-  "productName": "electron-boilerplate",
+  "productName": "Electron Boilerplate",
   "author": "Jane Doe",
   "version": "1.0.0",
   "description": "Minimal and modern Electron boilerplate with Vite, React, and TypeScript",
