@@ -3,7 +3,7 @@
   "productName": "electron-boilerplate",
   "author": "Jane Doe",
   "version": "1.0.0",
-  "description": "Electron boilerplate with Vite, React, better-sqlite3, and Drizzle",
+  "description": "Minimal and modern Electron boilerplate with Vite, React, and TypeScript",
   "main": ".vite/build/main.js",
   "scripts": {
     "start": "electron-forge start",
