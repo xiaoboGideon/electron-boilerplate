@@ -1,5 +1,5 @@
 import { type FormEvent, useEffect, useRef, useState } from "react";
-import { Link, type FormProps } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { type users } from "../../schema";
 import { Button } from "@/components/shadcn-ui/button";
 import { Input } from "@/components/shadcn-ui/input";
@@ -22,8 +22,9 @@ export function Home(): JSX.Element {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
     const data = Object.fromEntries(new FormData(e.currentTarget));
+    if (!data.name || typeof data.name !== "string") return;
     await window.ipcRenderer
-      .invoke("saveName", data.name.toString())
+      .invoke("saveName", data.name)
       .then((result) => {
         setUsersState((prev) => [...prev, result]);
         formRef.current?.reset();
