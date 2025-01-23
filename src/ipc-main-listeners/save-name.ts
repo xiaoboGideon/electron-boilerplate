@@ -6,6 +6,5 @@ export const saveName = (async (
   _: unknown,
   name: string,
 ): Promise<typeof users.$inferSelect> => {
-  const result = db.insert(users).values({ name }).returning().get();
-  return result;
+  return db.insert(users).values({ name }).returning().get();
 }) satisfies IpcMainListener;
