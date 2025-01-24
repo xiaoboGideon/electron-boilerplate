@@ -1,4 +1,4 @@
-import "../styles/global.css";
+import "@/styles/global.css";
 import { createHashRouter, RouterProvider } from "react-router-dom";
 import { Home } from "./home";
 import { ErrorBoundary } from "./error-boundary";

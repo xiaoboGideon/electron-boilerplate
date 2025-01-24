@@ -1,3 +1,4 @@
+import path from "path";
 import { defineConfig } from "vite";
 import native from "vite-plugin-native";
 
@@ -9,4 +10,9 @@ export default defineConfig({
       webpack: {},
     }),
   ],
+  resolve: {
+    alias: {
+      "@": path.resolve(__dirname, "./src"),
+    },
+  },
 });

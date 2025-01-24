@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { type users } from "../../schema";
 import { Button } from "@/components/shadcn-ui/button";
 import { Input } from "@/components/shadcn-ui/input";
 import { getErrorMessage } from "@/utils/get-error-message";
+import { type users } from "@/schema";
 
 export function Home(): React.JSX.Element {
   const [usersState, setUsersState] = useState<(typeof users.$inferSelect)[]>(
