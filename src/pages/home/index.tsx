@@ -22,8 +22,11 @@ export function Home(): React.JSX.Element {
     if (!name || typeof name !== "string") return;
 
     try {
-      const newUser = await window.ipcRenderer.invoke("saveName", name);
-      setUsersState((prev) => [...prev, newUser]);
+      const registeredUser = await window.ipcRenderer.invoke(
+        "registerUser",
+        name,
+      );
+      setUsersState((prev) => [...prev, registeredUser]);
     } catch (error) {
       const errorMessage = getErrorMessage(error);
       console.error(errorMessage);
@@ -43,6 +46,7 @@ export function Home(): React.JSX.Element {
         <Button type="reset">Reset</Button>
       </form>
       <div>
+        <h2>Users:</h2>
         {usersState.map((user) => (
           <p key={user.id}>{user.name}</p>
         ))}

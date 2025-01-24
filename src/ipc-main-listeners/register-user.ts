@@ -2,7 +2,7 @@ import { type IpcMainListener } from ".";
 import { users } from "@/schema";
 import { db } from "@/utils/db";
 
-export const saveName = (async (
+export const registerUser = (async (
   _: unknown,
   name: string,
 ): Promise<typeof users.$inferSelect> => {
