@@ -11,13 +11,11 @@ export function Home(): React.JSX.Element {
   );
   const formRef = useRef<HTMLFormElement>(null);
 
-  const updateUsers = async (): Promise<void> => {
-    const users = await window.ipcRenderer.invoke("fetchUsers");
-    setUsersState(users);
-  };
-
   useEffect(function setInitialUsers() {
-    void updateUsers();
+    void (async (): Promise<void> => {
+      const users = await window.ipcRenderer.invoke("fetchUsers");
+      setUsersState(users);
+    })();
   }, []);
 
   const handleSubmit = async (formData: FormData): Promise<void> => {
