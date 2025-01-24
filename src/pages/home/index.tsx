@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { type users } from "../../schema";
 import { Button } from "@/components/shadcn-ui/button";
@@ -9,7 +9,6 @@ export function Home(): React.JSX.Element {
   const [usersState, setUsersState] = useState<(typeof users.$inferSelect)[]>(
     [],
   );
-  const formRef = useRef<HTMLFormElement>(null);
 
   useEffect(function setInitialUsers() {
     void (async (): Promise<void> => {
@@ -38,7 +37,7 @@ export function Home(): React.JSX.Element {
       <div>
         <Link to="/about">Go to about page</Link>
       </div>
-      <form ref={formRef} action={handleSubmit}>
+      <form action={handleSubmit}>
         <Input name="name" type="text" />
         <Button type="submit">Submit</Button>
         <Button type="reset">Reset</Button>
