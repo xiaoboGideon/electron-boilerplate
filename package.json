@@ -75,7 +75,6 @@
     "@rollup/rollup-win32-x64-msvc": "^4.21.3"
   },
   "engines": {
-    "node": ">=22",
-    "npm": ">=10.8.0"
+    "node": ">=22"
   }
 }
