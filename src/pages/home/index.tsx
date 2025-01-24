@@ -40,7 +40,8 @@ export function Home(): React.JSX.Element {
         <Link to="/about">Go to about page</Link>
       </div>
       <form action={handleSubmit}>
-        <Input name="name" type="text" />
+        <label htmlFor="name">Name:</label>
+        <Input name="name" type="text" id="name" />
         <Button type="submit">Submit</Button>
         <Button type="reset">Reset</Button>
       </form>
