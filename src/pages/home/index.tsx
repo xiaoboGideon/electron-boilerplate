@@ -1,4 +1,4 @@
-import { type FormEvent, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { type users } from "../../schema";
 import { Button } from "@/components/shadcn-ui/button";
@@ -20,15 +20,13 @@ export function Home(): React.JSX.Element {
     void updateUsers();
   }, []);
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>): Promise<void> => {
-    e.preventDefault();
-    const data = Object.fromEntries(new FormData(e.currentTarget));
-    if (!data.name || typeof data.name !== "string") return;
+  const handleSubmit = async (formData: FormData): Promise<void> => {
+    const name = formData.get("name");
+    if (!name || typeof name !== "string") return;
 
     try {
-      const newUser = await window.ipcRenderer.invoke("saveName", data.name);
+      const newUser = await window.ipcRenderer.invoke("saveName", name);
       setUsersState((prev) => [...prev, newUser]);
-      formRef.current?.reset();
     } catch (error) {
       const errorMessage = getErrorMessage(error);
       console.error(errorMessage);
@@ -42,7 +40,7 @@ export function Home(): React.JSX.Element {
       <div>
         <Link to="/about">Go to about page</Link>
       </div>
-      <form ref={formRef} onSubmit={handleSubmit}>
+      <form ref={formRef} action={handleSubmit}>
         <Input name="name" type="text" />
         <Button type="submit">Submit</Button>
         <Button type="reset">Reset</Button>
