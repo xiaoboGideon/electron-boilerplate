@@ -18,10 +18,9 @@ export function Home(): React.JSX.Element {
   }, []);
 
   const handleSubmit = async (formData: FormData): Promise<void> => {
-    const name = formData.get("name");
-    if (!name || typeof name !== "string") return;
-
     try {
+      const name = formData.get("name");
+      if (typeof name !== "string") throw new Error("Name is not a string");
       const registeredUser = await window.ipcRenderer.invoke(
         "registerUser",
         name,
