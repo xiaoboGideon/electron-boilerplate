@@ -42,8 +42,18 @@ export function Home(): React.JSX.Element {
         <label htmlFor="name">Name:</label>
         <Input name="name" type="text" id="name" />
         <Button type="submit">Submit</Button>
-        <Button type="reset">Reset</Button>
       </form>
+      <Button
+        type="button"
+        onClick={() => {
+          window.ipcRenderer
+            .invoke("deleteUsers")
+            .then(() => setPromiseUsers(Promise.resolve([])))
+            .catch(console.error);
+        }}
+      >
+        Delete all users
+      </Button>
       <Suspense fallback={<p>Loading...</p>}>
         <UserList promiseUsers={promiseUsers} />
       </Suspense>
