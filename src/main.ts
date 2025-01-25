@@ -16,19 +16,22 @@ if (started) {
   app.quit();
 }
 
-void app.whenReady().then(() => {
-  migrateDatabase();
-  setupStaticFileServer();
-  registerIpcMainListeners();
+app
+  .whenReady()
+  .then(() => {
+    migrateDatabase();
+    setupStaticFileServer();
+    registerIpcMainListeners();
 
-  app.on("activate", () => {
-    // On OS X it's common to re-create a window in the app when the
-    // dock icon is clicked and there are no other windows open.
-    if (BrowserWindow.getAllWindows().length === 0) {
-      createWindow();
-    }
-  });
-});
+    app.on("activate", () => {
+      // On OS X it's common to re-create a window in the app when the
+      // dock icon is clicked and there are no other windows open.
+      if (BrowserWindow.getAllWindows().length === 0) {
+        createWindow();
+      }
+    });
+  })
+  .catch(console.error);
 
 // Quit when all windows are closed, except on macOS. There, it's common
 // for applications and their menu bar to stay active until the user quits
@@ -51,11 +54,11 @@ function createWindow(): void {
 
   // Load the app
   if (MAIN_WINDOW_VITE_DEV_SERVER_URL) {
-    void mainWindow.loadURL(MAIN_WINDOW_VITE_DEV_SERVER_URL);
+    mainWindow.loadURL(MAIN_WINDOW_VITE_DEV_SERVER_URL).catch(console.error);
   } else {
     // In production, use Hono server for serving static files
     const startURL = `http://localhost:${HONO_PORT}`;
-    void mainWindow.loadURL(startURL);
+    mainWindow.loadURL(startURL).catch(console.error);
   }
 
   // Open the DevTools when in development mode.
