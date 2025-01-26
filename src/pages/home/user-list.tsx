@@ -2,11 +2,11 @@ import { use } from "react";
 import { type users } from "@/schema";
 
 interface Props {
-  promiseUsers: Promise<(typeof users.$inferSelect)[]>;
+  usersPromise: Promise<(typeof users.$inferSelect)[]>;
 }
 
-export function UserList({ promiseUsers }: Props): React.JSX.Element {
-  const users = use(promiseUsers);
+export function UserList({ usersPromise }: Props): React.JSX.Element {
+  const users = use(usersPromise);
 
   return (
     <div>

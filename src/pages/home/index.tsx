@@ -9,21 +9,21 @@ import { type users } from "@/schema";
 const fetchUsers = cache(async () => window.ipcRenderer.invoke("fetchUsers"));
 
 export function Home(): React.JSX.Element {
-  const [promiseUsers, setPromiseUsers] =
+  const [usersPromise, setUsersPromise] =
     useState<Promise<(typeof users.$inferSelect)[]>>(fetchUsers);
 
   const handleSubmit = (formData: FormData): void => {
     try {
       const name = formData.get("name");
       if (typeof name !== "string") throw new Error("Name is not a string");
-      const promiseRegisteredUser = window.ipcRenderer.invoke(
+      const registeredUserPromise = window.ipcRenderer.invoke(
         "registerUser",
         name,
       );
-      setPromiseUsers(async (promisePrevUsers) => {
+      setUsersPromise(async (prevUsersPromise) => {
         const [prevUsers, registeredUser] = await Promise.all([
-          promisePrevUsers,
-          promiseRegisteredUser,
+          prevUsersPromise,
+          registeredUserPromise,
         ]);
         return [...prevUsers, registeredUser];
       });
@@ -50,14 +50,14 @@ export function Home(): React.JSX.Element {
         onClick={() => {
           window.ipcRenderer
             .invoke("deleteUsers")
-            .then(() => setPromiseUsers(Promise.resolve([])))
+            .then(() => setUsersPromise(Promise.resolve([])))
             .catch(console.error);
         }}
       >
         Delete all users
       </Button>
       <Suspense fallback={<p>Loading...</p>}>
-        <UserList promiseUsers={promiseUsers} />
+        <UserList usersPromise={usersPromise} />
       </Suspense>
     </div>
   );
