@@ -20,11 +20,13 @@ export function Home(): React.JSX.Element {
         "registerUser",
         name,
       );
-      setPromiseUsers((promisePrevUsers) =>
-        Promise.all([promisePrevUsers, promiseRegisteredUser]).then(
-          ([prevUsers, registeredUser]) => [...prevUsers, registeredUser],
-        ),
-      );
+      setPromiseUsers(async (promisePrevUsers) => {
+        const [prevUsers, registeredUser] = await Promise.all([
+          promisePrevUsers,
+          promiseRegisteredUser,
+        ]);
+        return [...prevUsers, registeredUser];
+      });
     } catch (error) {
       const errorMessage = getErrorMessage(error);
       console.error(errorMessage);
