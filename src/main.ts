@@ -68,10 +68,9 @@ function createWindow(): void {
 }
 
 function migrateDatabase(): void {
-  const migrationsFolder =
-    process.env.NODE_ENV === "development"
-      ? "drizzle"
-      : path.join(process.resourcesPath, "drizzle");
+  const isProduction = app.isPackaged;
+  const baseResourcePath = isProduction ? process.resourcesPath : ".";
+  const migrationsFolder = path.resolve(baseResourcePath, "drizzle");
 
   migrate(db, { migrationsFolder });
 }
