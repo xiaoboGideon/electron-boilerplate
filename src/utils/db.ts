@@ -1,30 +1,52 @@
 import path from "path";
 import { existsSync, mkdirSync } from "fs";
-import Database from "better-sqlite3";
+import { app } from "electron";
+import Database, { type Database as DatabaseType } from "better-sqlite3";
 import {
   drizzle,
   type BetterSQLite3Database,
 } from "drizzle-orm/better-sqlite3";
+import { getErrorMessage } from "./get-error-message";
 
-const isDev = process.env.NODE_ENV === "development";
-const baseResourcePath = isDev ? "." : process.resourcesPath;
-const dbDirectoryPath = path.resolve(baseResourcePath, "database");
+const isProduction = app.isPackaged;
 
-export const db = ((): BetterSQLite3Database => {
+function initializeDatabase(): BetterSQLite3Database {
+  let betterSqlite3: DatabaseType | undefined;
+
   try {
-    if (!existsSync(dbDirectoryPath)) {
-      mkdirSync(dbDirectoryPath, { recursive: true });
+    const baseResourcePath = isProduction ? process.resourcesPath : ".";
+    const databaseDirectoryPath = path.resolve(baseResourcePath, "database");
+
+    if (!existsSync(databaseDirectoryPath)) {
+      mkdirSync(databaseDirectoryPath, { recursive: true });
     }
 
-    const dbPath = path.resolve(dbDirectoryPath, "app.db");
-    const betterSqlite3 = new Database(dbPath, {
-      verbose: isDev ? console.info : undefined,
+    const appDbPath = path.join(databaseDirectoryPath, "app.db");
+
+    betterSqlite3 = new Database(appDbPath, {
+      verbose: isProduction ? undefined : console.info,
     });
+
     betterSqlite3.pragma("journal_mode = WAL");
 
     return drizzle(betterSqlite3);
   } catch (error) {
-    console.error("Failed to initialize database:", error);
-    throw new Error("Database initialization failed");
+    if (betterSqlite3) {
+      try {
+        betterSqlite3.close();
+      } catch (closeError) {
+        console.error("[Database] Error while closing database:", closeError);
+      }
+    }
+
+    if (!isProduction) {
+      console.error("[Database] Initialization failed:", error);
+    }
+
+    throw new Error(
+      `Database initialization failed: ${getErrorMessage(error) || "Unknown error"}`,
+    );
   }
-})();
+}
+
+export const db = initializeDatabase();
