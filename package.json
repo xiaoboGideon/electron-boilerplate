@@ -7,9 +7,9 @@
   "main": ".vite/build/main.js",
   "scripts": {
     "start": "electron-forge start",
-    "package": "electron-forge package",
-    "premake": "electron-rebuild -f -w better-sqlite3",
-    "make": "electron-forge make",
+    "package": "npm run rebuild && npm exec electron-forge package",
+    "make": "npm run rebuild && npm exec electron-forge make",
+    "rebuild": "electron-rebuild -f -w better-sqlite3",
     "publish": "electron-forge publish",
     "lint": "npm run eslint && npm run typecheck",
     "eslint": "eslint",
