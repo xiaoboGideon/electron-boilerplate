@@ -16,4 +16,4 @@ Most of this code is generously borrowed from [Electron forge template with Vite
 
 ## Notes
 
-When upgrading Electron or better-sqlite3, ensure version compatibility between them. Refer to [better-sqlite3's release page]((https://github.com/WiseLibs/better-sqlite3/releases)) for supported Electron versions.
+When upgrading Electron or better-sqlite3, ensure version compatibility between them. Refer to [better-sqlite3's release page](https://github.com/WiseLibs/better-sqlite3/releases) for supported Electron versions.
