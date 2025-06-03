@@ -3,7 +3,6 @@ import tseslint from "typescript-eslint";
 import reactPlugin from "eslint-plugin-react";
 import importPlugin from "eslint-plugin-import";
 import comments from "@eslint-community/eslint-plugin-eslint-comments/configs";
-import tailwind from "eslint-plugin-tailwindcss";
 
 export default tseslint.config(
   eslint.configs.recommended,
@@ -11,7 +10,6 @@ export default tseslint.config(
   reactPlugin.configs.flat.recommended,
   reactPlugin.configs.flat["jsx-runtime"],
   comments.recommended,
-  tailwind.configs["flat/recommended"],
   {
     settings: {
       react: {
@@ -43,13 +41,8 @@ export default tseslint.config(
     rules: {
       "@typescript-eslint/array-type": "off",
       "@typescript-eslint/consistent-type-definitions": "off",
-      "@typescript-eslint/consistent-type-imports": [
-        "warn",
-        {
-          prefer: "type-imports",
-          fixStyle: "inline-type-imports",
-        },
-      ],
+      "@typescript-eslint/consistent-type-imports": "error",
+      "@typescript-eslint/no-import-type-side-effects": "error",
       "@typescript-eslint/no-unused-vars": [
         "error",
         {

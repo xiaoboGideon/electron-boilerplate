@@ -1,4 +1,4 @@
-import { type IpcMainListener } from ".";
+import type { IpcMainListener } from ".";
 import { users } from "@/schema";
 import { db } from "@/utils/db";
 

@@ -1,5 +1,5 @@
 import { use } from "react";
-import { type users } from "@/schema";
+import type { users } from "@/schema";
 
 interface Props {
   usersPromise: Promise<(typeof users.$inferSelect)[]>;
