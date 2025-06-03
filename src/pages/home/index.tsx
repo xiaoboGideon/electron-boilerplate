@@ -1,37 +1,74 @@
-import { cache, Suspense, useState } from "react";
+import { Suspense, useActionState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { UserList } from "./user-list";
+import { useUsers } from "./use-users";
 import { Button } from "@/components/shadcn-ui/button";
 import { Input } from "@/components/shadcn-ui/input";
 import { getErrorMessage } from "@/utils/get-error-message";
-import type { users } from "@/schema";
 
-const fetchUsers = cache(async () => window.ipcRenderer.invoke("fetchUsers"));
+interface RegisterUserState {
+  error: string | null;
+  success: boolean;
+}
+
+interface DeleteUsersState {
+  error: string | null;
+  success: boolean;
+}
 
 export function Home(): React.JSX.Element {
-  const [usersPromise, setUsersPromise] =
-    useState<Promise<(typeof users.$inferSelect)[]>>(fetchUsers);
+  const { usersPromise, registerUser, deleteAllUsers } = useUsers();
+  const nameInputRef = useRef<HTMLInputElement>(null);
 
-  const handleSubmit = (formData: FormData): void => {
-    try {
-      const name = formData.get("name");
-      if (typeof name !== "string") throw new Error("Name is not a string");
-      const registeredUserPromise = window.ipcRenderer.invoke(
-        "registerUser",
-        name,
-      );
-      setUsersPromise(async (prevUsersPromise) => {
-        const [prevUsers, registeredUser] = await Promise.all([
-          prevUsersPromise,
-          registeredUserPromise,
-        ]);
-        return [...prevUsers, registeredUser];
-      });
-    } catch (error) {
-      const errorMessage = getErrorMessage(error);
-      console.error(errorMessage);
-    }
-  };
+  const [registerState, registerAction, isRegisterPending] = useActionState(
+    async function handleRegisterUser(
+      _: RegisterUserState,
+      formData: FormData,
+    ): Promise<RegisterUserState> {
+      try {
+        const name = formData.get("name");
+        if (typeof name !== "string") {
+          return { error: "Name is not a string", success: false };
+        }
+        await registerUser(name);
+        return { error: null, success: true };
+      } catch (error) {
+        const errorMessage = getErrorMessage(error);
+        return { error: errorMessage, success: false };
+      }
+    },
+    { error: null, success: false },
+  );
+
+  const [deleteState, deleteAction, isDeletePending] = useActionState(
+    async function handleDeleteAllUsers(
+      _: DeleteUsersState,
+    ): Promise<DeleteUsersState> {
+      try {
+        await deleteAllUsers();
+        return { error: null, success: true };
+      } catch (error) {
+        const errorMessage = getErrorMessage(error);
+        return { error: errorMessage, success: false };
+      }
+    },
+    { error: null, success: false },
+  );
+
+  useEffect(function focusOnMount() {
+    nameInputRef.current?.focus();
+  }, []);
+
+  useEffect(
+    function restoreFocusAfterSuccess() {
+      if (registerState.success && !isRegisterPending) {
+        nameInputRef.current?.focus();
+      }
+    },
+    [registerState.success, isRegisterPending],
+  );
+
+  const isPending = isRegisterPending || isDeletePending;
 
   return (
     <div>
@@ -40,23 +77,34 @@ export function Home(): React.JSX.Element {
       <div>
         <Link to="/about">Go to about page</Link>
       </div>
-      <form action={handleSubmit}>
+
+      <form action={registerAction}>
         <label htmlFor="name">Name:</label>
-        <Input name="name" type="text" id="name" />
-        <Button type="submit">Submit</Button>
+        <Input
+          name="name"
+          type="text"
+          id="name"
+          disabled={isPending}
+          ref={nameInputRef}
+        />
+        <Button type="submit" disabled={isPending}>
+          {isRegisterPending ? "Adding..." : "Submit"}
+        </Button>
       </form>
-      <Button
-        type="button"
-        onClick={() => {
-          window.ipcRenderer
-            .invoke("deleteUsers")
-            .then(() => setUsersPromise(Promise.resolve([])))
-            .catch(console.error);
-        }}
-      >
-        Delete all users
-      </Button>
-      <Suspense fallback={<p>Loading...</p>}>
+
+      {registerState.error && (
+        <p className="text-red-500">{registerState.error}</p>
+      )}
+
+      <form action={deleteAction}>
+        <Button type="submit" disabled={isPending}>
+          {isDeletePending ? "Deleting..." : "Delete all users"}
+        </Button>
+      </form>
+
+      {deleteState.error && <p className="text-red-500">{deleteState.error}</p>}
+
+      <Suspense fallback={<p>Loading users...</p>}>
         <UserList usersPromise={usersPromise} />
       </Suspense>
     </div>
