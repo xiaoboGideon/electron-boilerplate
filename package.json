@@ -44,7 +44,7 @@
     "clsx": "^2.1.1",
     "drizzle-kit": "^0.31.1",
     "drizzle-orm": "^0.44.1",
-    "electron": "^34.0.2",
+    "electron": "^36.3.2",
     "eslint": "^9.28.0",
     "eslint-import-resolver-typescript": "^4.4.2",
     "eslint-plugin-import": "^2.31.0",
@@ -71,7 +71,7 @@
     "vitest": "^3.2.0"
   },
   "dependencies": {
-    "better-sqlite3": "^11.10.0",
+    "better-sqlite3": "11.10.0",
     "electron-squirrel-startup": "^1.0.1",
     "vite-plugin-native": "^2.2.1"
   },
