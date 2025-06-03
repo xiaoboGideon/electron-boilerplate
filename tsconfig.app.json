@@ -1,13 +1,12 @@
 {
   "extends": "@tsconfig/vite-react/tsconfig.json", // https://www.npmjs.com/package/@tsconfig/vite-react
   "compilerOptions": {
-    "target": "ES2022",
-    "lib": ["ES2022", "DOM", "DOM.Iterable"],
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]
     },
-    "types": ["vitest/importMeta"]
+    "types": ["vitest/importMeta"],
+    "verbatimModuleSyntax": false
   },
   "exclude": ["forge.config.ts"]
 }
