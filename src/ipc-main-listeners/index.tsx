@@ -1,4 +1,4 @@
-import { type ipcMain } from "electron";
+import type { ipcMain } from "electron";
 import { fetchUsers } from "./fetch-users";
 import { registerUser } from "./register-user";
 import { deleteUsers } from "./delete-users";

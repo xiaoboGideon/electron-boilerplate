@@ -4,7 +4,7 @@ import { UserList } from "./user-list";
 import { Button } from "@/components/shadcn-ui/button";
 import { Input } from "@/components/shadcn-ui/input";
 import { getErrorMessage } from "@/utils/get-error-message";
-import { type users } from "@/schema";
+import type { users } from "@/schema";
 
 const fetchUsers = cache(async () => window.ipcRenderer.invoke("fetchUsers"));
 
