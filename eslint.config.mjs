@@ -60,6 +60,12 @@ export default tseslint.config(
       ],
       "@typescript-eslint/no-floating-promises": "error",
       "@typescript-eslint/explicit-function-return-type": "error",
+      "@typescript-eslint/restrict-template-expressions": [
+        "error",
+        {
+          allowNever: true, // Allow template expressions with 'never' type for exhaustive checks
+        },
+      ],
       "import/no-unresolved": "error",
       "import/no-default-export": "error",
       "import/order": "error",

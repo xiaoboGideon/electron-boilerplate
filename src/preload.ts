@@ -1,7 +1,7 @@
 import { ipcRenderer, contextBridge } from "electron";
 import type { ipcMainListeners } from "./ipc-main-listeners";
 
-type AllowedChannel = keyof typeof ipcMainListeners;
+export type AllowedChannel = keyof typeof ipcMainListeners;
 
 type InvokeArgs<K extends AllowedChannel> = Parameters<
   (typeof ipcMainListeners)[K]
