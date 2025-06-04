@@ -38,10 +38,13 @@ export function useUsers(): UseUsersReturn {
   const handleDeleteAllUsers = useCallback(async (): Promise<void> => {
     await window.ipcRenderer.invoke("deleteUsers");
 
-    // Update the usersPromise to an empty array
+    const emptyUsersPromise = Promise.resolve([]);
+
     startTransition(() => {
-      setUsersPromise(Promise.resolve([]));
+      setUsersPromise(emptyUsersPromise);
     });
+
+    await emptyUsersPromise;
   }, []);
 
   return {
