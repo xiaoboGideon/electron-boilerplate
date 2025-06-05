@@ -58,7 +58,6 @@ export function useUsers(): UseUsersReturn {
 if (import.meta.vitest) {
   const { describe, it, expect, vi, beforeEach, beforeAll } = import.meta
     .vitest;
-  const { renderHook, act } = await import("@testing-library/react");
 
   // Mock React module
   vi.mock("react", async () => {
@@ -71,7 +70,8 @@ if (import.meta.vitest) {
     };
   });
 
-  describe("useUsers", () => {
+  describe("useUsers", async () => {
+    const { renderHook, act } = await import("@testing-library/react");
     const mockUsers: User[] = [
       { id: 1, name: "Alice" },
       { id: 2, name: "Bob" },
