@@ -12,7 +12,6 @@ Build cross-platform desktop applications with the power of web technologies. Th
 - 🎨 **Beautiful UI** - shadcn/ui components with Tailwind CSS
 - 🧪 **Testing Setup** - Vitest for unit testing
 - 📦 **Easy Packaging** - Electron Forge for distribution
-- 🔄 **State Management** - Custom hooks for data management
 - 🛣️ **Routing** - React Router for navigation
 
 ## 🛠️ Tech Stack
@@ -32,7 +31,6 @@ Build cross-platform desktop applications with the power of web technologies. Th
 ### Prerequisites
 
 - Node.js 22.12.0 or higher
-- npm or yarn
 
 ### Installation
 
