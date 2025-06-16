@@ -2,6 +2,15 @@ import { useState, useCallback, startTransition } from "react";
 import type { users } from "@/schema";
 import type { AllowedChannel } from "@/preload";
 
+// Extend the Window interface to include the electron property
+declare global {
+  interface Window {
+    electron: {
+      invoke: (channel: AllowedChannel, ...args: any[]) => Promise<any>;
+    };
+  }
+}
+
 type User = typeof users.$inferSelect;
 
 interface UseUsersReturn {
@@ -12,7 +21,7 @@ interface UseUsersReturn {
 
 export function useUsers(): UseUsersReturn {
   const [usersPromise, setUsersPromise] = useState<Promise<User[]>>(
-    window.ipcRenderer.invoke("fetchUsers"),
+    window.electron.invoke("fetchUsers"),
   );
 
   const handleRegisterUser = useCallback(
@@ -20,7 +29,7 @@ export function useUsers(): UseUsersReturn {
       const newUsersPromise = (async (): Promise<User[]> => {
         const [currentUsers, newUser] = await Promise.all([
           usersPromise,
-          window.ipcRenderer.invoke("registerUser", name),
+          window.electron.invoke("registerUser", name),
         ]);
         return [...currentUsers, newUser];
       })();
@@ -37,7 +46,7 @@ export function useUsers(): UseUsersReturn {
   );
 
   const handleDeleteAllUsers = useCallback(async (): Promise<void> => {
-    await window.ipcRenderer.invoke("deleteUsers");
+    await window.electron.invoke("deleteUsers");
 
     const emptyUsersPromise = Promise.resolve([]);
 

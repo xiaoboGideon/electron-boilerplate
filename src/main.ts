@@ -48,7 +48,7 @@ function createWindow(): void {
     width: 800,
     height: 600,
     webPreferences: {
-      preload: path.join(__dirname, "preload.js"),
+      preload: path.join(__dirname, "preload.ts"),
     },
   });
 
@@ -59,6 +59,7 @@ function createWindow(): void {
     // In production, use Hono server for serving static files
     const startURL = `http://localhost:${HONO_PORT}`;
     mainWindow.loadURL(startURL).catch(console.error);
+    mainWindow.webContents.openDevTools();
   }
 
   // Open the DevTools when in development mode.

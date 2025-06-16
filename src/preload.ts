@@ -22,7 +22,7 @@ const api = {
   },
 };
 
-contextBridge.exposeInMainWorld("ipcRenderer", api);
+contextBridge.exposeInMainWorld("electron", api);
 
 declare global {
   interface Window {
